@@ -1,0 +1,35 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Admin Login";
+    Layout = "_Layout";
+}
+
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="brand-mark" style="width:44px;height:44px;font-size:1.1rem;">PC</div>
+        <h2>Admin Login</h2>
+        <div class="sub">Sign in to manage property listings</div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary" asp-validation-summary="ModelOnly"></div>
+        }
+
+        <form method="post" action="/Account/Login">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+
+            <div class="field" style="margin-bottom:16px;">
+                <label for="Username">Username</label>
+                <input type="text" id="Username" name="Username" value="@Model.Username" autofocus />
+            </div>
+
+            <div class="field" style="margin-bottom:22px;">
+                <label for="Password">Password</label>
+                <input type="password" id="Password" name="Password" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </form>
+    </div>
+</div>

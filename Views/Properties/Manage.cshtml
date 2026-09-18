@@ -1,0 +1,76 @@
+@model List<Property>
+@{
+    ViewData["Title"] = "Manage Listings";
+}
+
+<div class="container">
+    <div class="page-head">
+        <div>
+            <h1>Manage Listings</h1>
+            <p>@Model.Count total listing@(Model.Count == 1 ? "" : "s")</p>
+        </div>
+        <a href="/Properties/Create" class="btn btn-primary">+ New Listing</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (Model.Count == 0)
+    {
+        <div class="empty-state">
+            <div class="icon">📋</div>
+            <h3>No listings yet</h3>
+            <p>Create your first listing to get started.</p>
+        </div>
+    }
+    else
+    {
+        <div class="admin-table-wrap" style="margin:22px 0 56px;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Price</th>
+                        <th>Bed / Bath</th>
+                        <th>Listed</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(p.ImagePath))
+                                {
+                                    <img class="thumb" src="@p.ImagePath" alt="" />
+                                }
+                                else
+                                {
+                                    <div class="thumb" style="display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);">🏡</div>
+                                }
+                            </td>
+                            <td>
+                                <a href="/Home/Details/@p.Id" style="font-weight:600;">@p.Title</a>
+                            </td>
+                            <td>@p.Location</td>
+                            <td>ETB @p.Price.ToString("N0")</td>
+                            <td>@p.Bedrooms bd / @p.Bathrooms ba</td>
+                            <td>@p.CreatedAt.ToString("MMM d, yyyy")</td>
+                            <td style="text-align:right;">
+                                <form method="post" action="/Properties/Delete/@p.Id" onsubmit="return confirm('Delete \'@p.Title\'? This cannot be undone.');" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

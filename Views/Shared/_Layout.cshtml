@@ -1,0 +1,46 @@
+@{
+    bool isAdmin = User?.Identity?.IsAuthenticated == true;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] — Property Connect</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a class="brand" href="/">
+                <span class="brand-mark">PC</span>
+                Property Connect
+            </a>
+            <div class="nav-links">
+                <a class="nav-link" href="/">Browse</a>
+                @if (isAdmin)
+                {
+                    <a class="nav-link" href="/Properties/Manage">Manage Listings</a>
+                    <a class="nav-link" href="/Properties/Create">+ New Listing</a>
+                    <form method="post" action="/Account/Logout" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="nav-link btn-outline-nav" style="background:none;border:1px solid rgba(255,255,255,0.25);cursor:pointer;font:inherit;">Log out</button>
+                    </form>
+                }
+                @* Admin login is intentionally not shown in the nav — regular
+                   users only see "Browse". Admins go directly to /Account/Login. *@
+            </div>
+        </div>
+    </nav>
+
+    <main style="flex:1; display:flex; flex-direction:column;">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        Property Connect — internal listings, LAN only.
+    </footer>
+
+    <script src="~/js/site.js"></script>
+</body>
+</html>

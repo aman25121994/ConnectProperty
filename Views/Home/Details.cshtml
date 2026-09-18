@@ -1,0 +1,57 @@
+@model Property
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container">
+    <div style="padding-top:22px;">
+        <a href="/" class="btn btn-outline btn-sm">← Back to listings</a>
+    </div>
+
+    <div class="detail-wrap">
+        <div>
+            <div class="detail-photo">
+                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <img src="@Model.ImagePath" alt="@Model.Title" />
+                }
+                else
+                {
+                    <div class="placeholder">🏡</div>
+                }
+            </div>
+
+            <div class="detail-badges">
+                <span class="badge">🛏 @Model.Bedrooms Bedroom@(Model.Bedrooms == 1 ? "" : "s")</span>
+                <span class="badge">🛁 @Model.Bathrooms Bathroom@(Model.Bathrooms == 1 ? "" : "s")</span>
+            </div>
+
+            <h1 class="detail-title">@Model.Title</h1>
+            <div class="detail-price">ETB @Model.Price.ToString("N0") / month</div>
+            <div class="detail-location">📍 @Model.Location</div>
+            <p class="detail-desc">@Model.Description</p>
+        </div>
+
+        <div class="contact-card">
+            <h3>Contact Seller</h3>
+            @if (!string.IsNullOrEmpty(Model.ContactName))
+            {
+                <div class="contact-row">
+                    <div class="contact-icon">👤</div>
+                    <div>@Model.ContactName</div>
+                </div>
+            }
+            <div class="contact-row">
+                <div class="contact-icon">📞</div>
+                <a href="tel:@Model.ContactPhone">@Model.ContactPhone</a>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ContactEmail))
+            {
+                <div class="contact-row">
+                    <div class="contact-icon">✉️</div>
+                    <a href="mailto:@Model.ContactEmail">@Model.ContactEmail</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

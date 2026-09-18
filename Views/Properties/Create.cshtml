@@ -1,0 +1,91 @@
+@model PropertyFormViewModel
+@{
+    ViewData["Title"] = "New Listing";
+}
+
+<div class="container">
+    <div class="page-head">
+        <div>
+            <h1>New Listing</h1>
+            <p>Publish a property for the internal network to browse.</p>
+        </div>
+        <a href="/Properties/Manage" class="btn btn-outline btn-sm">← Back to manage</a>
+    </div>
+
+    <div class="form-card">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary" asp-validation-summary="ModelOnly"></div>
+        }
+
+        <form method="post" action="/Properties/Create" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="form-grid">
+                <div class="field full">
+                    <label for="Title">Title</label>
+                    <input type="text" id="Title" name="Title" maxlength="100" value="@Model.Title" />
+                    <span class="field-error" asp-validation-for="Title"></span>
+                </div>
+
+                <div class="field full">
+                    <label for="Description">Description</label>
+                    <textarea id="Description" name="Description" maxlength="1000">@Model.Description</textarea>
+                    <span class="field-error" asp-validation-for="Description"></span>
+                </div>
+
+                <div class="field">
+                    <label for="Price">Monthly Price (ETB)</label>
+                    <input type="number" step="0.01" min="0" id="Price" name="Price" value="@Model.Price" />
+                    <span class="field-error" asp-validation-for="Price"></span>
+                </div>
+
+                <div class="field">
+                    <label for="Location">Location</label>
+                    <input type="text" id="Location" name="Location" maxlength="200" value="@Model.Location" />
+                    <span class="field-error" asp-validation-for="Location"></span>
+                </div>
+
+                <div class="field">
+                    <label for="Bedrooms">Bedrooms</label>
+                    <input type="number" min="0" id="Bedrooms" name="Bedrooms" value="@Model.Bedrooms" />
+                </div>
+
+                <div class="field">
+                    <label for="Bathrooms">Bathrooms</label>
+                    <input type="number" min="0" id="Bathrooms" name="Bathrooms" value="@Model.Bathrooms" />
+                </div>
+
+                <div class="field full" style="margin-top:6px;">
+                    <label>Photo <span class="hint">(optional — jpg, png, gif, or webp)</span></label>
+                    <label for="ImageFile" class="file-drop" id="file-drop-label">
+                        📷 Click to choose a photo, or drag one here
+                    </label>
+                    <input type="file" id="ImageFile" name="ImageFile" accept=".jpg,.jpeg,.png,.gif,.webp" style="display:none;" />
+                </div>
+
+                <div class="field">
+                    <label for="ContactName">Seller Name</label>
+                    <input type="text" id="ContactName" name="ContactName" maxlength="100" value="@Model.ContactName" />
+                </div>
+
+                <div class="field">
+                    <label for="ContactPhone">Seller Phone</label>
+                    <input type="tel" id="ContactPhone" name="ContactPhone" maxlength="50" value="@Model.ContactPhone" />
+                    <span class="field-error" asp-validation-for="ContactPhone"></span>
+                </div>
+
+                <div class="field full">
+                    <label for="ContactEmail">Seller Email <span class="hint">(optional)</span></label>
+                    <input type="email" id="ContactEmail" name="ContactEmail" maxlength="100" value="@Model.ContactEmail" />
+                    <span class="field-error" asp-validation-for="ContactEmail"></span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Publish Listing</button>
+                <a href="/Properties/Manage" class="btn btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
